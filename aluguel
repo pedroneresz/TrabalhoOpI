@@ -1,0 +1,37 @@
+(defstruct aluguel
+dataSaida
+dataDevolucao
+status
+cpfCliente
+veiculo
+valorTotal
+diasAlugados
+valorTotal=0
+valorDiaria=150
+)
+
+(load "model/cliente")
+(load "model/veiculo")
+
+(defvar *alugeis* nil)
+
+(defun cadastrar-aluguel (cliente veiculo data-inicio data-fim)
+(let ((novo-aluguel (make-aluguel :dataSaida (read-from-minibuffer "Data Retirada Veiculo: ")
+                                  :dataDevolucao (read-from-minibuffer "Data Devolução Veiculo: ")
+                                  :cpfCliente (read-from-minibuffer "Cpf do Cliente:" buscar-cliete-por-cpf)
+                                  :veiculo (read-from-minibuffer)))
+            (push aluguel *alugueis*)
+            (format t "Aluguel de veiculo registrado com sucesso!.~%")
+            aluguel)))
+
+(defun calculo-valor-valorTotal (aluguel valorDiaria)
+    (let ((diasAlugados (-(date-value (aluguel-dataDevolucao aluguel)) (date-value (aluguel-dataSaida))))
+        (valorTotal (* dias-alugados valorDiaria)))
+            (setf (aluguel-dia-valor-total aluguel)valorTotal)
+            valorTotal))
+
+(defun listar-alugueis()
+    (if (null *alugueis*)
+        (format t "Não há alugueis cadastrados.~%")
+        (dolist (aluguel *alugueis*)
+            (format t "Cliente: ")))

@@ -1,0 +1,56 @@
+(defstruct veiculo
+marca
+modelo
+inventario
+anoFabricacao
+anoModelo
+placa)
+
+(defvar *veiculos* nil)
+;; Função para cadastro de veiculos
+(defun cadastror-veiculo()
+    (let ((veiculo (make-veiculo :marca (read-from-minibuffer "Marca: ")
+                                 :modelo (read-from-minibuffer "Modelo: ")
+                                 :anoFabricacao (read-from-minibuffer "Ano Fabricação: ")
+                                 :anoModelo (read-from-minibuffer "Ano Modelo: ")
+                                 :placa (read-from-minibuffer "Placa: "))))
+        (push veiculo *veiculos*)
+        (format t "Veiculo cadastrado com sucesso"~%)))
+
+;; Função para busca de veiculos por placa
+(defun buscar-veiculo-por-placa (placa)
+    (find-if #'(lambda (veiculo)
+        (string= placa (veiculo-placa veiculo)))
+        *veiculos*))
+;; Função para alteração de veiculos
+(defun alterar-veiculo()
+    (let ((placa (read-from-minibuffer "Informe a Placa do veiculo ser alterado: ")))
+        (let ((veiculo (buscar-veiculo-por-placa placa)))
+            (if veiculo
+                (progn
+                (setf (veiculo-marca veiculo) (read-from-minibuffer "Nova Marca: "))
+                (setf (veiculo-modelo veiculo) (read-from-minbuffer "Novo Modelo: "))
+                (setf (veiculo-anoFabricacao veiculo) (read-from-minibuffer "Novo Ano Fabriação: "))
+                (setf (veiculo-anoModelo veiculo) (read-from-minibuffer "Novo Ano Modelo: "))
+                 (format t "veiculo alterado com sucesso!~%"))
+                 (format t "veiculo com Placa ~a não encontrado.~%" placa)))))
+;; Função para exclusão de veiculos
+(defun excluir-veiculo()
+    (let ((placa (read-from-minibuffer "Informe a placa do carro a ser excluído: "))
+        (let ((veiculo (buscar-veiculo-por-placa)))
+            (if(veiculo
+                    (progn
+                        (setf *veiculos* (delete veiculo *veiculos*))
+                        (format t "Veiculo excluído com sucesso!.~%"))
+                        (format t "Veiculo com placa ~a Não encontrado!.~%" placa)))))))
+
+(defun listar-veiculos()
+    if(null *veiculos*)
+        (format t "Não há veiculos cadastrados.~%")
+        (dolist (veiculo *veiculos*)
+            (format t "Marca: ~a%Modelo: ~a%AnoFabricação: ~a%AnoModelo: ~a%Placa: ~a~%~%"
+                    (veiculo-marca veiculo)
+                    (veiculo-modelo veiculo)
+                    (veiculo-anoFabricacao veiculo)
+                    (veiculo-anoModelo veiculo)
+                    (veiculo-placa veiculo))))
