@@ -1,3 +1,0 @@
-(in-packge :user)
-
-(compile-file "model)
